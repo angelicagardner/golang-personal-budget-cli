@@ -57,7 +57,7 @@ func (b *Budget) AddItem(description string, price float32) error {
 		return errDoesNotFitBudget
 	}
 	var newItem = Item{Description: description, Price: price}
-	append(b.Items, newItem)
+	b.Items = append(b.Items, newItem)
 	return nil
 }
 
@@ -67,7 +67,6 @@ func (b *Budget) RemoveItem(description string) {
 		if b.Items[i].Description == description {
 			b.Items = append(b.Items[:i], b.Items[i+1:]...)
 			break
-		}
 		}
 	}
 }
@@ -80,8 +79,8 @@ func CreateBudget(month time.Month, max float32) (*Budget, error) {
 	if _, hasEntry := report[month]; hasEntry {
 		return nil, errDuplicateEntry
 	}
-	var newBudget = Budget{Max: max}
-	report[month] = &newBudget
+	var newBudget = &Budget{Max: max}
+	report[month] = newBudget
 	return newBudget, nil
 }
 
